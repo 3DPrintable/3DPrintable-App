@@ -40,10 +40,10 @@ export const useNFTBalance = (options) => {
         setNFTBalance(NFTs);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchData()
   }
-  , [data]);
-
+  , // eslint-disable-next-line react-hooks/exhaustive-deps
+  [data]);
+  
   return { getNFTBalance, NFTBalance, fetchSuccess, error, isLoading };
 };
