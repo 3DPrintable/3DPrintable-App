@@ -7,18 +7,14 @@ import {
   NavLink,
   Redirect,
 } from "react-router-dom";
-import QuickStart from "components/QuickStart";
 import Account from "components/Account";
 import Chains from "components/Chains";
 import NFTBalance from "components/NFTBalance";
 import NFTMint from "components/NFTMint";
-import NFTTokenIds from "components/NFTTokenIds";
 import { Menu, Layout} from "antd";
 import "antd/dist/antd.css";
 import NativeBalance from "components/NativeBalance";
 import "./style.css";
-// import Text from "antd/lib/typography/Text";
-import NFTMarketTransactions from "components/NFTMarketTransactions";
 
 const { Header } = Layout;
 
@@ -53,14 +49,10 @@ const styles = {
     fontWeight: "600",
   },
 };
+
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
-    useMoralis();
-
-
-
-  const [inputValue, setInputValue] = useState("explore");
-
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
+  const [setInputValue] = useState("explore");
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,13 +74,10 @@ const App = ({ isServerInfo }) => {
               marginLeft: "500px",
               width: "100%",
             }}
-            defaultSelectedKeys={["quickstart"]}
-          >
-            <Menu.Item key="quickstart">
-              <NavLink to="/quickstart">Home</NavLink>
-            </Menu.Item>
+            defaultSelectedKeys={["nftMint"]}
+            >
             <Menu.Item key="nftMint" onClick={() => setInputValue("explore")}>
-              <NavLink to="/nftMint">Mint</NavLink>
+              <NavLink to="/nftMint">Lazy Mint on Rarible</NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
               <NavLink to="/nftBalance">Your Collection</NavLink>
@@ -102,23 +91,14 @@ const App = ({ isServerInfo }) => {
         </Header>
         <div style={styles.content}>
           <Switch>
-            <Route exact path="/quickstart">
-              <QuickStart isServerInfo={isServerInfo} />
+            <Route exact path="/nftMint">
+              <NFTMint isServerInfo={isServerInfo}/>
             </Route>
             <Route path="/nftBalance">
               <NFTBalance />
             </Route>
-            <Route path="/nftMint">
-              <NFTMint />
-            </Route>
-            <Route path="/NFTMarketPlace">
-              <NFTTokenIds inputValue={inputValue} setInputValue={setInputValue}/>
-            </Route>
-            <Route path="/Transactions">
-              <NFTMarketTransactions />
-            </Route>
           </Switch>
-          <Redirect to="/QuickStart" />
+          <Redirect to="/nftMint" />
         </div>
       </Router>
     </Layout>
