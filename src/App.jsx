@@ -1,4 +1,5 @@
-import { useEffect, useState} from "react";
+import { useEffect } from "react";
+import Moralis from 'moralis';
 import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
@@ -51,12 +52,56 @@ const styles = {
 };
 
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
-  const [setInputValue] = useState("explore");
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading, user } = useMoralis();
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isWeb3Enabled]);
+
+  async function uploadNFT(metadata){
+    const imageFile = new Moralis.File(metadata.image.name, metadata.image)
+    const stlFile = new Moralis.File(metadata.file.name, metadata.file, "model/stl")
+    await imageFile.saveIPFS();
+    await stlFile.saveIPFS();
+    let imageFileHash = imageFile.hash();
+    let stlFileHash = stlFile.hash();
+    // let imageFileUrl = imageFile.url();
+    // let stlFileUrl = stlFile.url();
+    // console.log(imageFileHash)
+    // console.log(stlFileHash)
+    // console.log(imageFileUrl)
+    // console.log(stlFileUrl)
+
+    let Metadata = {
+      name: metadata.name,
+      creator: metadata.creator,
+      category: metadata.category,
+      supply: metadata.supply,
+      description: metadata.description,
+      image: "/ipfs/" + imageFileHash,
+      file: "/ipfs/" + stlFileHash
+    }
+    // console.log(Metadata)
+
+    const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); // btoa deprecated but still works so fuck it?
+    await jsonFile.saveIPFS();
+    // console.log(jsonFile)
+
+    let metadataHash = jsonFile.hash();
+    console.log(jsonFile.ipfs())
+
+    let res = await Moralis.Plugins.rarible.lazyMint({
+      chain: 'rinkeby',
+      userAddress: user.get('ethAddress'),
+      tokenType: 'ERC1155',
+      tokenUri: 'ipfs://' + metadataHash,
+      supply: metadata.supply
+      // royaltiesAmount: 5, // 0.05% royalty. Optional
+    })
+    console.log(res);
+    if (window.confirm('Click OK to list NFT on Rarible! ')) 
+    {window.location.href=`https://rinkeby.rarible.com/token/${res.data.result.tokenAddress}:${res.data.result.tokenId}`}
+  }
 
   return (
     <section>
@@ -76,7 +121,7 @@ const App = ({ isServerInfo }) => {
             }}
             defaultSelectedKeys={["nftMint"]}
             >
-            <Menu.Item key="nftMint" onClick={() => setInputValue("explore")}>
+            <Menu.Item key="nftMint">
               <NavLink to="/nftMint">Lazy Mint on Rarible</NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
@@ -92,7 +137,7 @@ const App = ({ isServerInfo }) => {
         <div style={styles.content}>
           <Switch>
             <Route exact path="/nftMint">
-              <NFTMint isServerInfo={isServerInfo}/>
+              <NFTMint onAdd={uploadNFT}/>
             </Route>
             <Route path="/nftBalance">
               <NFTBalance />
