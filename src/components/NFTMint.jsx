@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import "./styles.css";
+import reactDom from "react-dom";
+import { FilePond, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+// yarn add filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
 
 const NFTMint = ({ onAdd }) => {
   
@@ -10,6 +20,8 @@ const NFTMint = ({ onAdd }) => {
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
   const [file, setFile] = useState('')
+  const [files, setFiles] = useState([]);
+  
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -87,6 +99,15 @@ const NFTMint = ({ onAdd }) => {
               <div className="form_element">
                 <div className="col-md-4" style={{marginLeft: "-25px"}}>
                   <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload Image<span className="text-danger">*</span></label>
+                </div>
+                <div>
+                <FilePond
+                  files={files}
+                  allowReorder={true}
+                  allowMultiple={true}
+                  onupdatefiles={setFiles}
+                  labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                />
                 </div>
                 <input className="form-control" type="file" accept="image/png, image/jpeg" onChange={(e) => setImage(e.target.files[0])}></input>
 				      </div>

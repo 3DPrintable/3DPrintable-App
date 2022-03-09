@@ -14,8 +14,8 @@ import NFTBalance from "components/NFTBalance";
 import NFTMint from "components/NFTMint";
 import { Menu, Layout} from "antd";
 import "antd/dist/antd.css";
-import NativeBalance from "components/NativeBalance";
 import "./style.css";
+import NativeBalance from "components/NativeBalance";
 
 const { Header } = Layout;
 
