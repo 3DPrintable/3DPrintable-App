@@ -81,7 +81,7 @@ const App = ({ isServerInfo }) => {
       image: "/ipfs/" + imageFileHash,
       file: "/ipfs/" + stlFileHash
     }
-    // console.log(Metadata)
+    console.log(Metadata)
 
     const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); // btoa deprecated but still works so fuck it?
     await jsonFile.saveIPFS();

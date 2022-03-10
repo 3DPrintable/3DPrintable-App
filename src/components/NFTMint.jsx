@@ -1,15 +1,5 @@
 import React, { useState } from "react";
 import "./styles.css";
-import reactDom from "react-dom";
-import { FilePond, registerPlugin } from "react-filepond";
-import "filepond/dist/filepond.min.css";
-// yarn add filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-
 
 const NFTMint = ({ onAdd }) => {
   
@@ -18,11 +8,9 @@ const NFTMint = ({ onAdd }) => {
   const [category, setCategory] = useState('')
   const [supply, setSupply] = useState('')
   const [description, setDescription] = useState('')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState([])
   const [file, setFile] = useState('')
-  const [files, setFiles] = useState([]);
   
-
   const onSubmit = (e) => {
     e.preventDefault()
 
@@ -72,42 +60,33 @@ const NFTMint = ({ onAdd }) => {
     setFile('')
   }
 
-  // function preview() {
-  //   if (image==null) {
-  //     return <div>
-  //       <div className="preview-box" style={{paddingTop: "25%"}}>
-  //           <span style={{color: "whitesmoke"}}>Upload a file to see a preview</span>
-  //       </div>
-  //     </div>
-  //   }
-  //   return <div>
-  //     {image && (
-  //         <div className="preview-box" style={{paddingTop: "1%"}}>
-  //           <img src={image} alt="preview" width="95%" hieght="95%" />
-  //         </div>
-  //     )}
-  //   </div>
-  // }
+  function preview() {
+    if (image==null) {
+      return <div>
+        <div className="preview-box" style={{paddingTop: "25%"}}>
+            <span style={{color: "whitesmoke"}}>Upload a file to see a preview</span>
+        </div>
+      </div>
+    }
+    return <div>
+      {image && (
+          <div className="preview-box" style={{paddingTop: "1%"}}>
+            <img src={image} alt="preview" width="95%" hieght="95%" />
+          </div>
+      )}
+    </div>
+  }
 
   return (
     <section>
       <form className='add-form' onSubmit={onSubmit} >
-        <div className="col-11">
+        <div className="col-12">
           <div className="title" style={{fontFamily: 'Roboto, sans-serif', fontSize: "2rem", marginTop: "0rem", marginBottom: '3rem', color: "whitesmoke"}}>Lazy Mint on Rarible </div>
             <div className="row">
               <div className="col-4 offset-2">
               <div className="form_element">
                 <div className="col-md-4" style={{marginLeft: "-25px"}}>
                   <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload Image<span className="text-danger">*</span></label>
-                </div>
-                <div>
-                <FilePond
-                  files={files}
-                  allowReorder={true}
-                  allowMultiple={true}
-                  onupdatefiles={setFiles}
-                  labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                />
                 </div>
                 <input className="form-control" type="file" accept="image/png, image/jpeg" onChange={(e) => setImage(e.target.files[0])}></input>
 				      </div>
@@ -117,41 +96,6 @@ const NFTMint = ({ onAdd }) => {
                 </div>
                 <input className="form-control" type="file" accept=".stl" onChange={(e) => setFile(e.target.files[0])}></input>
 				      </div>
-				          {/* <div className="form_element">
-					          <div className="col-md-4" style={{marginLeft: "-25px"}}>
-					    	      <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload Image<span className="text-danger">*</span></label>
-					          </div>
-                    <div className="upload-box">
-                      <input 
-                        type="file"
-                        name="image" 
-                        accept="image/png, image/jpeg"
-                        style={{paddingTop: "15%"}} 
-                        onChange={(e) => {
-                          const imgUrl = URL.createObjectURL(e.target.files[0]);
-                          setImage(imgUrl);
-                          }}  
-                        />
-                      <p style={{fontSize: "1rem", color: "whitesmoke"}}>Click or drag a image to this area to upload</p>
-                    </div>
-                  </div>
-                  <div className="form_element">
-					          <div className="col-md-4" style={{marginLeft: "-25px"}}>
-					    	      <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload STL File<span className="text-danger">*</span></label>
-					          </div>
-                    <div className="upload-box">
-                      <input
-                        type="file"
-                        accept=".stl"
-                        style={{paddingTop: "15%"}} 
-                        onChange={(e) => {
-                          const fileUrl = URL.createObjectURL(e.target.files[0]);
-                          setFile(fileUrl);
-                          }} 
-                        />
-                      <p style={{fontSize: "1rem", color: "whitesmoke"}}>Click or drag a STL file to this area to upload</p>
-                    </div>
-                  </div> */}
                 <div className="form_element">
                   <div className="col-md-2">
                     <label className="form-label" style={{fontSize: "1.25rem", marginLeft: "-10px", color: "whitesmoke"}}>Name<span className="text-danger">*</span></label>
@@ -189,14 +133,13 @@ const NFTMint = ({ onAdd }) => {
                   <input className="form-control" type=" text" placeholder="Description of the file" value={description} onChange={(e) => setDescription(e.target.value)}/>
                 </div>
               </div>
-              {/* <div className="col-5 offset-7" style={{position: "fixed", height: "40vh", marginTop: "1rem", marginBottom: "5rem"}}>
+              <div className="col-5 offset-7" style={{position: "fixed", height: "40vh", marginTop: "1rem", marginBottom: "5rem"}}>
                 <div className="title" style={{fontFamily: "Roboto, sans-serif", fontSize: "1.5rem", float: "left", marginLeft: "2rem", marginBottom: "1.5rem", color: "whitesmoke"}}>Image Preview</div>
                 {preview()}
-                </div>       */}
+                </div>      
               </div>
             </div>
-            <div className="row col-3 offset-3" style={{marginTop: "5rem", color: "whitesmoke"}}>
-              {/* <button type="button" className="btn btn-primary btn-lg" htmltype="submit">Submit</button> */}
+            <div className="col-8" style={{marginTop: "5rem", color: "whitesmoke"}}>
               <input type='submit' value='Upload' className='btn btn-primary'></input>
             </div> 
             </form>
