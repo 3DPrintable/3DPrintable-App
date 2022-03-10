@@ -59,6 +59,8 @@ const App = ({ isServerInfo }) => {
   }, [isAuthenticated, isWeb3Enabled]);
 
   async function uploadNFT(metadata){
+    window.alert("Confirm uploading data to Rarible by clicking OK. DON'T REFRESH THE PAGE!!!")
+
     const imageFile = new Moralis.File(metadata.image.name, metadata.image)
     const stlFile = new Moralis.File(metadata.file.name, metadata.file, "model/stl")
     await imageFile.saveIPFS();
@@ -78,6 +80,7 @@ const App = ({ isServerInfo }) => {
       category: metadata.category,
       supply: metadata.supply,
       description: metadata.description,
+      royalty: metadata.royalty,
       image: "/ipfs/" + imageFileHash,
       file: "/ipfs/" + stlFileHash
     }
@@ -88,17 +91,18 @@ const App = ({ isServerInfo }) => {
     // console.log(jsonFile)
 
     let metadataHash = jsonFile.hash();
-    console.log(jsonFile.ipfs())
+    // console.log(jsonFile.ipfs())
 
     let res = await Moralis.Plugins.rarible.lazyMint({
       chain: 'rinkeby',
       userAddress: user.get('ethAddress'),
       tokenType: 'ERC1155',
       tokenUri: 'ipfs://' + metadataHash,
-      supply: metadata.supply
-      // royaltiesAmount: 5, // 0.05% royalty. Optional
+      supply: metadata.supply,
+      royaltiesAmount: metadata.royalty * 100 // 5 = 0.05% royalty. Optional
     })
-    console.log(res);
+
+    // console.log(res);
     if (window.confirm('Click OK to list NFT on Rarible! ')) 
     {window.location.href=`https://rinkeby.rarible.com/token/${res.data.result.tokenAddress}:${res.data.result.tokenId}`}
   }
@@ -116,7 +120,7 @@ const App = ({ isServerInfo }) => {
               display: "flex",
               fontSize: "17px",
               fontWeight: "500",
-              marginLeft: "500px",
+              marginLeft: "400px",
               width: "100%",
             }}
             defaultSelectedKeys={["nftMint"]}

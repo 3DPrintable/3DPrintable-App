@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import { Spinner } from 'react-bootstrap';
 import "./styles.css";
 
 const NFTMint = ({ onAdd }) => {
@@ -8,6 +9,7 @@ const NFTMint = ({ onAdd }) => {
   const [category, setCategory] = useState('')
   const [supply, setSupply] = useState('')
   const [description, setDescription] = useState('')
+  const [royalty, setRoyalty] = useState('')
   const [image, setImage] = useState([])
   const [file, setFile] = useState('')
   
@@ -39,6 +41,11 @@ const NFTMint = ({ onAdd }) => {
         return
     }
 
+    if(!royalty) {
+      alert('Missing royalty!!!')
+      return
+    }
+
     if(!image) {
         alert('Missing image!!!')
         return
@@ -49,13 +56,14 @@ const NFTMint = ({ onAdd }) => {
         return
     }
     
-    onAdd({ name, creator, category, supply, description, image, file })
+    onAdd({ name, creator, category, supply, description, royalty, image, file })
     
     setName('')
     setCreator('')
     setCategory('')
     setSupply('')
     setDescription('')
+    setRoyalty('')
     setImage('')
     setFile('')
   }
@@ -85,31 +93,31 @@ const NFTMint = ({ onAdd }) => {
             <div className="row">
               <div className="col-4 offset-2">
               <div className="form_element">
-                <div className="col-md-4" style={{marginLeft: "-25px"}}>
+                <div className="col-md-6" style={{marginLeft: "-25px"}}>
                   <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload Image<span className="text-danger">*</span></label>
                 </div>
                 <input className="form-control" type="file" accept="image/png, image/jpeg" onChange={(e) => setImage(e.target.files[0])}></input>
 				      </div>
               <div className="form_element">
-                <div className="col-md-4" style={{marginLeft: "-25px"}}>
+                <div className="col-md-6" style={{marginLeft: "-25px"}}>
                   <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload STL File<span className="text-danger">*</span></label>
                 </div>
                 <input className="form-control" type="file" accept=".stl" onChange={(e) => setFile(e.target.files[0])}></input>
 				      </div>
                 <div className="form_element">
-                  <div className="col-md-2">
+                  <div className="col-md-4" style={{marginLeft: "-25px"}}>
                     <label className="form-label" style={{fontSize: "1.25rem", marginLeft: "-10px", color: "whitesmoke"}}>Name<span className="text-danger">*</span></label>
                   </div>
                   <input className="form-control" type=" text" placeholder="Insert name of the file" value={name} onChange={(e) => setName(e.target.value)}></input>
                 </div>
                 <div className="form_element">
-                  <div className="col-md-1">
+                  <div className="col-md-4" style={{marginLeft: "-25px"}}>
                     <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Supply<span className="text-danger">*</span></label>
                   </div>
                   <input className="form-control" type=" text" placeholder="Enter quantity of NFTs to mint per file" value={supply} onChange={(e) => setSupply(e.target.value)}/>
                 </div>
                 <div className="form_element">
-                  <div className="col-md-3" style={{marginLeft: "-15px", marginBottom: "5px"}}>
+                  <div className="col-md-4" style={{marginLeft: "-15px", marginBottom: "5px"}}>
                     <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Category <span className="text-danger">*</span></label>
                   </div>
                   <select className="form-control" type=" text" placeholder='' value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -127,7 +135,13 @@ const NFTMint = ({ onAdd }) => {
                   <input className="form-control" type=" text" placeholder="Insert creator name" value={creator} onChange={(e) => setCreator(e.target.value)}/>
                 </div>
                 <div className="form_element">
-                  <div className="col-md-1" style={{marginLeft: "-15px", color: "whitesmoke"}}>
+                  <div className="col-md-7" style={{marginLeft: "-25px"}}>
+                    <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Royalty Percentage<span className="text-danger">*</span></label>
+                  </div>
+                  <input className="form-control" type=" text" placeholder="Royalty Percentage" value={royalty} onChange={(e) => setRoyalty(e.target.value)}/>
+                </div>
+                <div className="form_element">
+                  <div className="col-md-7" style={{marginLeft: "-15px", color: "whitesmoke"}}>
                     <label className="form-label" style={{fontSize: "1.25rem", scrollBehavior: "auto"}}>Description <span style={{color: "gray"}}>(optional)</span></label>
                   </div>
                   <input className="form-control" type=" text" placeholder="Description of the file" value={description} onChange={(e) => setDescription(e.target.value)}/>
@@ -139,8 +153,8 @@ const NFTMint = ({ onAdd }) => {
                 </div>      
               </div>
             </div>
-            <div className="col-8" style={{marginTop: "5rem", color: "whitesmoke"}}>
-              <input type='submit' value='Upload' className='btn btn-primary'></input>
+            <div className="col-8" style={{marginTop: "2rem", marginBottom: "15px", color: "whitesmoke"}}>
+              <input type='submit' value='Upload' className='btn btn-primary'></input> 
             </div> 
             </form>
   </section>
