@@ -30,7 +30,7 @@ const styles = {
     padding: "10px",
   },
   header: {
-    position: "fixed",
+    position: "auto",
     zIndex: 1,
     width: "100%",
     background: "#fff",
@@ -38,6 +38,7 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     fontFamily: "Roboto, sans-serif",
+    fontSize: "15px",
     borderBottom: "2px solid rgba(0, 0, 0, 0.06)",
     padding: "0 10px",
     boxShadow: "0 1px 10px rgb(151 164 175 / 10%)",
@@ -116,13 +117,6 @@ const App = ({ isServerInfo }) => {
           <Menu
             theme="light"
             mode="horizontal"
-            style={{
-              display: "flex",
-              fontSize: "17px",
-              fontWeight: "500",
-              marginLeft: "400px",
-              width: "100%",
-            }}
             defaultSelectedKeys={["nftMint"]}
             >
             <Menu.Item key="nftMint">
