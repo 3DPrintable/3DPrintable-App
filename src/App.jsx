@@ -87,7 +87,7 @@ const App = ({ isServerInfo }) => {
     }
     console.log(Metadata)
 
-    const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); // btoa deprecated but still works so fuck it?
+    const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); // btoa deprecated, maybe fix later
     await jsonFile.saveIPFS();
     // console.log(jsonFile)
 
@@ -100,7 +100,7 @@ const App = ({ isServerInfo }) => {
       tokenType: 'ERC1155',
       tokenUri: 'ipfs://' + metadataHash,
       supply: metadata.supply,
-      royaltiesAmount: metadata.royalty * 100 // 5 = 0.05% royalty. Optional
+      royaltiesAmount: metadata.royalty * 100 
     })
 
     // console.log(res);

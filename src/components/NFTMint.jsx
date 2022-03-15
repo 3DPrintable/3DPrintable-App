@@ -7,6 +7,7 @@ const NFTMint = ({ onAdd }) => {
   const [creator, setCreator] = useState('')
   const [category, setCategory] = useState('')
   const [supply, setSupply] = useState('')
+  const [royalty, setRoyalty] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
   const [previewImage, setPreviewImage] = useState('')
@@ -35,6 +36,11 @@ const NFTMint = ({ onAdd }) => {
         return
     }
 
+    if(!royalty) {
+      alert('Missing royalty!')
+      return
+  }
+
     if(!image) {
         alert('Missing image!')
         return
@@ -45,12 +51,13 @@ const NFTMint = ({ onAdd }) => {
         return
     }
     
-    onAdd({ name, creator, category, supply, description, image, file })
+    onAdd({ name, creator, category, supply, royalty, description, image, file })
     
     setName('')
     setCreator('')
     setCategory('')
     setSupply('')
+    setRoyalty('')
     setDescription('')
     setImage('')
     setFile('')
@@ -117,7 +124,7 @@ const NFTMint = ({ onAdd }) => {
               </div>
               <div className="form_element">
                 <div className="col-md-0">
-                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Category <span className="text-danger">*</span></label>
+                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Category<span className="text-danger">*</span></label>
                 </div>
                 <select className="form-control" type=" text" placeholder='' value={category} onChange={(e) => setCategory(e.target.value)}>
                   <option value=''>Choose category</option>
@@ -132,6 +139,12 @@ const NFTMint = ({ onAdd }) => {
                   <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Creator<span className="text-danger">*</span></label>
                 </div>
                 <input className="form-control" type=" text" placeholder="Insert creator name" value={creator} onChange={(e) => setCreator(e.target.value)}/>
+              </div>
+              <div className="form_element">
+                <div className="col-md-0">
+                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Royalty<span className="text-danger">*</span></label>
+                </div>
+                <input className="form-control" type=" text" placeholder="Insert royalty percentage" value={royalty} onChange={(e) => setRoyalty(e.target.value)}/>
               </div>
               <div className="form_element">
                 <div className="col-md-0" style={{color: "whitesmoke"}}>
