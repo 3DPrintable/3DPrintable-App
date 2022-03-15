@@ -67,12 +67,12 @@ const App = ({ isServerInfo }) => {
     await stlFile.saveIPFS();
     let imageFileHash = imageFile.hash();
     let stlFileHash = stlFile.hash();
-    // let imageFileUrl = imageFile.url();
-    // let stlFileUrl = stlFile.url();
-    // console.log(imageFileHash)
-    // console.log(stlFileHash)
-    // console.log(imageFileUrl)
-    // console.log(stlFileUrl)
+    let imageFileUrl = imageFile.url();
+    let stlFileUrl = stlFile.url();
+    console.log(imageFileHash)
+    console.log(stlFileHash)
+    console.log(imageFileUrl)
+    console.log(stlFileUrl)
 
     let Metadata = {
       name: metadata.name,
