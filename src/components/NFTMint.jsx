@@ -74,7 +74,7 @@ const NFTMint = ({ onAdd }) => {
      }
      return <div>
        {previewImage && (   
-        <img src={previewImage} alt="preview" width="325px" height="325px"/>   
+        <img src={previewImage} alt="preview" width="225px" height="225px"/>   
        )}
      </div>
   }

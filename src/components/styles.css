@@ -82,8 +82,8 @@ body {
 }
 
 .preview-box {
-    height: 350px;
-    width: 350px;
+    height: 250px;
+    width: 250px;
     margin-top: 2rem;
     margin-left: 2rem;
     border-style: dashed;
