@@ -40,7 +40,7 @@ function NFTBalance() {
 
     let files;
     
-    for (let i = 0; i < attributes.length - 1; i++) {
+    for (let i = 0; i < attributes.length; i++) {
       let hash = '';
       let name = '';
       name = attributes[i].value
@@ -80,11 +80,11 @@ function NFTBalance() {
             <Card
               hoverable
               actions={[
-                <Tooltip title="View On Blockexplorer">
+                <Tooltip title="View On Token on Blockexplorer">
                   <FileSearchOutlined
                     onClick={() =>
                       window.open(
-                        `${getExplorer(chainId)}token/${nft.token_address}?a=${nft.token_id}#inventory`,
+                        `${getExplorer(chainId)}token/${nft.token_address}`,
                         "_blank"
                       )
                     }
@@ -116,7 +116,7 @@ function NFTBalance() {
           onOk={() => fetchNFTMetadata(nftToGrabFiles)}
           onCancel={() => setVisibility(false)}
         >
-          <p>Click OK to download the 3d printer files!</p>
+          <p>Click OK to download the 3d printer files, if avialable!</p>
         </Modal>
     </>
   );

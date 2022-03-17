@@ -68,12 +68,12 @@ const App = ({ isServerInfo }) => {
     await stlFile.saveIPFS();
     let imageFileHash = imageFile.hash();
     let stlFileHash = stlFile.hash();
-    let imageFileUrl = imageFile.url();
-    let stlFileUrl = stlFile.url();
-    console.log(imageFileHash)
-    console.log(stlFileHash)
-    console.log(imageFileUrl)
-    console.log(stlFileUrl)
+    // let imageFileUrl = imageFile.url();
+    // let stlFileUrl = stlFile.url();
+    // console.log(imageFileHash)
+    // console.log(stlFileHash)
+    // console.log(imageFileUrl)
+    // console.log(stlFileUrl)
 
     let Metadata = {
       name: metadata.name,
@@ -85,7 +85,7 @@ const App = ({ isServerInfo }) => {
       image: "/ipfs/" + imageFileHash,
       file: "/ipfs/" + stlFileHash
     }
-    console.log(Metadata)
+    // console.log(Metadata)
 
     const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); // btoa deprecated, maybe fix later
     await jsonFile.saveIPFS();
