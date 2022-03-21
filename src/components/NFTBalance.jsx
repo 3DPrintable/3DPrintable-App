@@ -37,9 +37,7 @@ function NFTBalance() {
     const metadata = JSON.parse(metaData.metadata);
     const attributes = metadata.attributes
     // console.log(metadata)
-
-    let files;
-    
+   
     for (let i = 0; i < attributes.length; i++) {
       let hash = '';
       let name = '';
@@ -51,11 +49,7 @@ function NFTBalance() {
       var fileDownload = require('js-file-download');
       fileDownload(response, name + ".stl")
       // console.log(response)
-      
     }
-    
-    console.log(files)
-
   }
 
   const handleDownloadFileClick = (nft) => {
@@ -80,7 +74,7 @@ function NFTBalance() {
             <Card
               hoverable
               actions={[
-                <Tooltip title="View On Token on Blockexplorer">
+                <Tooltip title="View Token on Block Explorer">
                   <FileSearchOutlined
                     onClick={() =>
                       window.open(
@@ -116,7 +110,7 @@ function NFTBalance() {
           onOk={() => fetchNFTMetadata(nftToGrabFiles)}
           onCancel={() => setVisibility(false)}
         >
-          <p>Click OK to download the 3d printer files, if avialable!</p>
+          <p>Click OK to download the 3d printer files, if available!</p>
         </Modal>
     </>
   );
