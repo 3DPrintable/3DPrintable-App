@@ -52,7 +52,7 @@ const styles = {
   },
 };
 
-const App = ({ isServerInfo }) => {
+const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading, user } = useMoralis();
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
@@ -120,10 +120,19 @@ const App = ({ isServerInfo }) => {
             defaultSelectedKeys={["nftMint"]}
             >
             <Menu.Item key="nftMint">
-              <NavLink to="/nftMint">Lazy Mint on Rarible</NavLink>
+              <NavLink to="/nftMint">
+                Lazy Mint on Rarible
+              </NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
-              <NavLink to="/nftBalance">Your Collection</NavLink>
+              <NavLink to="/nftBalance">
+                Your Collection
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="">
+              <NavLink to={{pathname: "https://3dprintable.github.io/3DPrintable-Docs/"}} target="_blank"> {/* Need to change if use the 3dprintable domain */}
+                Documentation
+              </NavLink>
             </Menu.Item>
           </Menu>
           <div style={styles.headerRight}>

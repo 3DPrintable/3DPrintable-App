@@ -34,7 +34,7 @@ function NFTBalance() {
       token_id: nft.token_id
     };
     const metaData = await Web3Api.token.getTokenIdMetadata(options)
-    const metadata = JSON.parse(metaData.metadata);
+    const metadata = JSON.parse(metaData.metadata);    
     const attributes = metadata.attributes
     // console.log(metadata)
    
