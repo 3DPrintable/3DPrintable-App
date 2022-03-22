@@ -106,19 +106,19 @@ const NFTMint = ({ onAdd }) => {
             </div>
             <div className="form_element">
               <div className="col-md-0">
-                <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload STL File<span className="text-danger">*</span></label>
+                <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Upload 3D Printer File (STL only supported)<span className="text-danger">*</span></label>
               </div>
               <input className="form-control" type="file" accept=".stl" onChange={(e) => setFile(e.target.files[0])}></input>
             </div>
               <div className="form_element">
                 <div className="col-md-0">
-                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Name<span className="text-danger">*</span></label>
+                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Name of File<span className="text-danger">*</span></label>
                 </div>
                 <input className="form-control" type=" text" placeholder="Insert name of the file" value={name} onChange={(e) => setName(e.target.value)}></input>
               </div>
               <div className="form_element">
                 <div className="col-md-0">
-                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Supply<span className="text-danger">*</span></label>
+                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Number of NFTs to Mint<span className="text-danger">*</span></label>
                 </div>
                 <input className="form-control" type=" text" placeholder="Enter quantity of NFTs to mint per file" value={supply} onChange={(e) => setSupply(e.target.value)}/>
               </div>
@@ -142,7 +142,7 @@ const NFTMint = ({ onAdd }) => {
               </div>
               <div className="form_element">
                 <div className="col-md-0">
-                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Royalty<span className="text-danger">*</span></label>
+                  <label className="form-label" style={{fontSize: "1.25rem", color: "whitesmoke"}}>Royalty %<span className="text-danger">*</span></label>
                 </div>
                 <input className="form-control" type=" text" placeholder="Insert royalty percentage" value={royalty} onChange={(e) => setRoyalty(e.target.value)}/>
               </div>

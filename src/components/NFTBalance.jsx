@@ -36,19 +36,24 @@ function NFTBalance() {
     const metaData = await Web3Api.token.getTokenIdMetadata(options)
     const metadata = JSON.parse(metaData.metadata);    
     const attributes = metadata.attributes
-    // console.log(metadata)
+    // console.log(attributes)
    
     for (let i = 0; i < attributes.length; i++) {
-      let hash = '';
-      let name = '';
-      name = attributes[i].value
-      hash = attributes[i].file
-      let ipfsHash = hash.replace("ipfs://", "")
-      const url = `https://ipfs.moralis.io:2053/ipfs/${ipfsHash}`
-      const response = await fetch(url).then(r => r.blob())
-      var fileDownload = require('js-file-download');
-      fileDownload(response, name + ".stl")
-      // console.log(response)
+      try {
+        let hash = '';
+        let name = '';
+        name = attributes[i].value
+        hash = attributes[i].file
+        let ipfsHash = hash.replace("ipfs://", "")
+        const url = `https://ipfs.moralis.io:2053/ipfs/${ipfsHash}`
+        const response = await fetch(url).then(r => r.blob())
+        var fileDownload = require('js-file-download');
+        fileDownload(response, name + ".stl")
+        // console.log(response)
+      } catch (e) {
+        window.alert("NFT does not have 3d printer files")
+        break;
+      }
     }
   }
 
