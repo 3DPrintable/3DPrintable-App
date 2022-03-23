@@ -13,6 +13,7 @@
     "downloadjs": "^1.4.7",
     "js-file-download": "^0.4.12",
     "moralis": "^0.0.118",
+    "moralis-admin-cli": "^2.1.16",
     "react": "^17.0.2",
     "react-blockies": "^1.4.1",
     "react-bootstrap": "^2.2.0",
