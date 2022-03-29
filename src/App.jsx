@@ -21,11 +21,9 @@ const { Header } = Layout;
 
 const styles = {
   content: {
-  //  display: "flex",
     justifyContent: "center",
     fontFamily: "Roboto, sans-serif",
     color: "#041836",
-    //background: "#242b3b",
     marginTop: "130px",
     padding: "10px",
   },
@@ -68,12 +66,6 @@ const App = () => {
     await stlFile.saveIPFS();
     let imageFileHash = imageFile.hash();
     let stlFileHash = stlFile.hash();
-    // let imageFileUrl = imageFile.url();
-    // let stlFileUrl = stlFile.url();
-    // console.log(imageFileHash)
-    // console.log(stlFileHash)
-    // console.log(imageFileUrl)
-    // console.log(stlFileUrl)
 
     let Metadata = {
       name: metadata.name,
@@ -85,17 +77,14 @@ const App = () => {
       image: "/ipfs/" + imageFileHash,
       file: "/ipfs/" + stlFileHash
     }
-    // console.log(Metadata)
 
-    const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); // btoa deprecated, maybe fix later
+    const jsonFile = new Moralis.File("Metadata.json", {base64 : btoa(JSON.stringify(Metadata))}); 
     await jsonFile.saveIPFS();
-    // console.log(jsonFile)
 
     let metadataHash = jsonFile.hash();
-    // console.log(jsonFile.ipfs())
 
     let res = await Moralis.Plugins.rarible.lazyMint({
-      chain: 'rinkeby',
+      chain: 'eth',
       userAddress: user.get('ethAddress'),
       tokenType: 'ERC1155',
       tokenUri: 'ipfs://' + metadataHash,
@@ -103,9 +92,8 @@ const App = () => {
       royaltiesAmount: metadata.royalty * 100 
     })
 
-    // console.log(res);
     if (window.confirm('Click OK to list NFT on Rarible! ')) 
-    {window.location.href=`https://rinkeby.rarible.com/token/${res.data.result.tokenAddress}:${res.data.result.tokenId}`}
+    {window.location.href=`https://rarible.com/token/${res.data.result.tokenAddress}:${res.data.result.tokenId}`}
   }
 
   return (
@@ -121,7 +109,7 @@ const App = () => {
             >
             <Menu.Item key="nftMint">
               <NavLink to="/nftMint">
-                Lazy Mint on Rarible
+                Lazy Mint on Rarible (Ethereum)
               </NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
