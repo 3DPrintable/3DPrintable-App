@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMoralisWeb3Api } from "react-moralis";
-import { Card, Image, Tooltip, Modal, Alert } from "antd"; // Input, Spin, Button
+import { Card, Image, Tooltip, Modal, Alert, Spin } from "antd"; // Input, Button
 import { useNFTBalance } from "hooks/useNFTBalance";
 import { FileSearchOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
@@ -26,8 +26,10 @@ function NFTBalance() {
   const [visible, setVisibility] = useState(false);
   const [nftToGrabFiles, setNftToGrabFiles] = useState(null);
   const Web3Api = useMoralisWeb3Api();
+  const [loading, setLoading] = useState(false);
 
   async function fetchNFTMetadata(nft) {
+    setLoading(true);
     const options = {
       chain: chainId,
       address: nft.token_address,
@@ -36,8 +38,7 @@ function NFTBalance() {
     const metaData = await Web3Api.token.getTokenIdMetadata(options)
     const metadata = JSON.parse(metaData.metadata);    
     const attributes = metadata.attributes
-    // console.log(attributes)
-   
+
     for (let i = 0; i < attributes.length; i++) {
       try {
         let hash = '';
@@ -49,12 +50,39 @@ function NFTBalance() {
         const response = await fetch(url).then(r => r.blob())
         var fileDownload = require('js-file-download');
         fileDownload(response, name + ".stl")
-        // console.log(response)
       } catch (e) {
-        window.alert("NFT does not have 3d printer files")
+        console.log('fail')
+        setLoading(false);
+        failDownload();
         break;
       }
+      console.log('success');
+      setLoading(false);
+      setVisibility(false);
+      succDownload();
     }
+  }
+
+  function succDownload() {
+    let secondsToGo = 5;
+    const modal = Modal.success({
+      title: "Success!",
+      content: `Files succesfully downloaded`,
+    });
+    setTimeout(() => {
+      modal.destroy();
+    }, secondsToGo * 1000);
+  }
+
+  function failDownload() {
+    let secondsToGo = 5;
+    const modal = Modal.error({
+      title: "Error!",
+      content: `No files found!`,
+    });
+    setTimeout(() => {
+      modal.destroy();
+    }, secondsToGo * 1000);
   }
 
   const handleDownloadFileClick = (nft) => {
@@ -112,10 +140,23 @@ function NFTBalance() {
         <Modal
           title={`Download ${nftToGrabFiles?.name} #${nftToGrabFiles?.token_id} Files`}
           visible={visible}
+          okText="Download Files"
           onOk={() => fetchNFTMetadata(nftToGrabFiles)}
           onCancel={() => setVisibility(false)}
         >
-          <p>Click OK to download the 3d printer files, if available!</p>
+          <p>Click Download Files to download the 3d printer files, if available!</p>
+            <Spin spinning={loading}>
+            <img alt="NFT"
+              src={`${nftToGrabFiles?.image}`}
+              style={{
+                width: "250px",
+                margin: "auto",
+                borderRadius: "10px",
+                marginTop: "15px",
+                marginBottom: "15px",
+              }}
+            />
+            </Spin>
         </Modal>
     </>
   );

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Moralis from 'moralis';
 import { useMoralis } from "react-moralis";
+import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
 import {
   BrowserRouter as Router,
   Switch,
@@ -56,8 +57,17 @@ const App = () => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isWeb3Enabled]);
+  
+  const { chainId } = useMoralisDapp();
 
   async function uploadNFT(metadata){
+    
+    if (chainId !== '0x1') {
+      window.alert('Wrong network! Please switch to Ethereum.')
+      window.location.reload()
+      return
+    }
+
     window.alert("Confirm uploading data to Rarible by clicking OK. DON'T REFRESH THE PAGE!!!")
 
     const imageFile = new Moralis.File(metadata.image.name, metadata.image)
@@ -109,7 +119,7 @@ const App = () => {
             >
             <Menu.Item key="nftMint">
               <NavLink to="/nftMint">
-                Lazy Mint on Rarible (Ethereum)
+                Lazy Mint on Rarible (Ethereum ONLY)
               </NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
