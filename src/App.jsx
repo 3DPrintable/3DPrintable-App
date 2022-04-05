@@ -29,7 +29,7 @@ const styles = {
     padding: "10px",
   },
   header: {
-    position: "auto",
+    position: "fixed",
     zIndex: 1,
     width: "100%",
     background: "#fff",
@@ -37,9 +37,9 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     fontFamily: "Roboto, sans-serif",
-    fontSize: "15px",
+    fontSize: "10px",
     borderBottom: "2px solid rgba(0, 0, 0, 0.06)",
-    padding: "0 10px",
+    padding: "0 15px",
     boxShadow: "0 1px 10px rgb(151 164 175 / 10%)",
   },
   headerRight: {
@@ -108,13 +108,21 @@ const App = () => {
 
   return (
     <section>
-    <Layout class="bg-overlay bg-gradient-primary opacity-6" style={{ height: "100vh", overflow: "auto"}}>
+    <Layout style={{ backgroundColor: '#000000', height: "100vh", overflow: "auto"}}>
       <Router>
         <Header style={styles.header}>
           <Logo />
           <Menu
             theme="light"
             mode="horizontal"
+            style={{
+              display: "flex",
+              fontSize: "15px",
+              fontWeight: "500",
+              marginLeft: "50px",
+              alignItems: "center",
+              width: "100%",
+            }}
             defaultSelectedKeys={["nftMint"]}
             >
             <Menu.Item key="nftMint">
@@ -128,7 +136,7 @@ const App = () => {
               </NavLink>
             </Menu.Item>
             <Menu.Item key="">
-              <NavLink to={{pathname: "https://3dprintable.github.io/3DPrintable-Docs/"}} target="_blank"> {/* Need to change if use the 3dprintable domain */}
+              <NavLink to={{pathname: "https://3dprintable.github.io/3DPrintable-Docs/"}} target="_blank"> 
                 Docs
               </NavLink>
             </Menu.Item>
@@ -141,7 +149,7 @@ const App = () => {
         </Header>
         <div style={styles.content}>
           <Switch>
-            <Route exact path="/nftMint">
+            <Route path="/nftMint">
               <NFTMint onAdd={uploadNFT}/>
             </Route>
             <Route path="/nftBalance">
