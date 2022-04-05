@@ -129,7 +129,7 @@ const App = () => {
             </Menu.Item>
             <Menu.Item key="">
               <NavLink to={{pathname: "https://3dprintable.github.io/3DPrintable-Docs/"}} target="_blank"> {/* Need to change if use the 3dprintable domain */}
-                Documentation
+                Docs
               </NavLink>
             </Menu.Item>
           </Menu>
